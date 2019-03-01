@@ -1,102 +1,25 @@
 import 'package:flutter/material.dart';
+var WD=233.0,AC=Alignment.center;
+lpd(t,[a=140,b=255])=>(a+(b-a)*t).toInt();
+colr(l)=>Color.fromRGBO(l,l,l,1);
 
-void main() => runApp(MyApp());
+mixin CM{}class C=Container with CM;
 
-class MyApp extends StatelessWidget {
-  Widget build(BuildContext context) => MaterialApp(
-        theme: ThemeData(),
-        home: HP(title: 'Logbook'),
-      );
-}
+main()=>runApp(App());
 
-class S extends StatefulWidget {
-  State createState() => null;
-}
-
-class HP extends S {
-  HP({Key key, this.title});
-  final String title;
-  createState() => _HPS();
-}
-
+class App extends StatelessWidget {build(c) => MaterialApp(home:HP());}
+class S extends StatefulWidget {createState() => null;}
+class HP extends S {createState() => _HPS();}
 class _HPS extends State<HP> {
-  PageController _pageController;
-  void initState() {
-    super.initState();
-
-  }
-
-  Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    _pageController = PageController(initialPage: 0, viewportFraction: 233/width);
-    return Scaffold(
-      body: Container(
-          color: Colors.white,
-          alignment: Alignment.center,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(36),
-                child: Container(
-                  width: 233,
-                  height: 480,
-                  color: Colors.black87,
-                ),
-              ),
-              Container(
-                height: 464,
-                child: PageView(
-                  controller: _pageController,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(28.0),
-                        child: Image.asset(
-                            'images/bg.jpg',
-                            fit: BoxFit.cover,
-                          ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 8, right: 8),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(28.0),
-                        child: Image.asset(
-                          'images/bg1.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              IgnorePointer(
-                child: Container(
-                  alignment: AlignmentDirectional.topCenter,
-                  width: 233, // 311,
-                  height: 480, //641,
-                  decoration: BoxDecoration(
-                    // color: Color.fromRGBO(37, 37, 37, 1),
-                    borderRadius: BorderRadius.circular(36.0),
-                    border: Border.all(
-                        color: Color.fromRGBO(52, 52, 52, 1), width: 8.0),
-                    // image: DecorationImage(
-                    //     image: AssetImage("images/bg.jpg"), fit: BoxFit.cover)
-                  ),
-                  child: Container(
-                    height: 20,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(52, 52, 52, 1),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(28),
-                            bottomRight: Radius.circular(28))),
-                  ),
-                ),
-              ),
-            ],
-          )));
-  }
+  var cp=1,np=-1,fade=1.0,images=['images/bg.jpg','images/bg2.jpg','images/bg1.jpg'];
+    build(ctx)=>((_pCtrl)=>
+      Scaffold(body:C(color:Colors.white,alignment:AC,
+      child:Stack(alignment:AC,
+        children:[ClipRRect(borderRadius:BorderRadius.circular(36),child:C(width:WD,height:480,color:Colors.black87)),
+          C(height:464,
+            child:NotificationListener(onNotification:(n){var pcp=_pCtrl.page;if(n is ScrollEndNotification){setState(()=>cp=pcp.floor());}else{setState((){if(pcp-cp>0){/*forwardPage*/np=pcp.ceil();fade=np-pcp;}else{/*backwardPage*/np=pcp.floor();fade=pcp-np;}});}},
+              child:PageView.builder(itemCount:images.length,controller:_pCtrl,itemBuilder:(_,i)=>C(margin:EdgeInsets.only(left:8,right:8),child:ClipRRect(borderRadius:BorderRadius.circular(28),child:InkWell(onTap: ()=>_pCtrl.animateToPage(i, duration: new Duration(milliseconds: 350),curve: Curves.easeIn),child: Image.asset(images[i],color:i==np?colr(lpd(1-fade)):i==cp?colr(lpd(fade)):colr(140),colorBlendMode:BlendMode.modulate,fit:BoxFit.cover),),),),),
+            ),
+          ),IgnorePointer(child:C(alignment:AlignmentDirectional.topCenter,width:WD,height:480,decoration:BoxDecoration(borderRadius:BorderRadius.circular(36.0),border:Border.all(color:colr(52),width:8)),child:C(height:20,width:120,decoration:BoxDecoration(color:colr(52),borderRadius:BorderRadius.only(bottomLeft:Radius.circular(36),bottomRight:Radius.circular(36)))))),],
+    ),),))(PageController(initialPage:cp,viewportFraction:WD/MediaQuery.of(ctx).size.width));
 }
