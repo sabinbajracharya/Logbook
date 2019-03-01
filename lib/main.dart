@@ -4,11 +4,10 @@ lpd(t,[a=140,b=255])=>(a+(b-a)*t).toInt();
 colr(l)=>Color.fromRGBO(l,l,l,1);
 
 mixin CM{}class C=Container with CM;
+abstract class S extends StatefulWidget{}
 
 main()=>runApp(App());
-
 class App extends StatelessWidget {build(c) => MaterialApp(home:HP());}
-class S extends StatefulWidget {createState() => null;}
 class HP extends S {createState() => _HPS();}
 class _HPS extends State<HP> {
   var cp=1,np=-1,fade=1.0,images=['images/bg.jpg','images/bg2.jpg','images/bg1.jpg'];
