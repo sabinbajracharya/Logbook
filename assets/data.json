@@ -1,0 +1,12 @@
+{
+    "t": "Logbook",
+    "s": "Discover & share amazing vlogs...",
+    "a": "Start the journey",
+    "d": [{
+        "i": "assets/images/bg.jpg"
+    },{
+        "i": "assets/images/bg2.jpg"
+    },{
+        "i": "assets/images/bg1.jpg"
+    }]
+}
