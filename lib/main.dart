@@ -24,11 +24,11 @@ class HP extends S {
 class _HPS extends State<HP> with TickerProviderStateMixin {
   var cp = 1, np = -1, fade = 1.0, _l = true, _d;
   AnimationController _loginButtonController;
-  Animation buttonSqueezeAnimation, buttonZoomout;
+  Animation buttonSqueezeAnimation, buttonZoomout, fadeScreenAnimation;
   void initState() {
     super.initState();
     _loginButtonController = new AnimationController(
-      duration: new Duration(milliseconds: 3000),
+      duration: new Duration(seconds: 4),
       vsync: this
     );
     buttonSqueezeAnimation = Tween(
@@ -37,7 +37,7 @@ class _HPS extends State<HP> with TickerProviderStateMixin {
     ).animate(
       CurvedAnimation(
         parent: _loginButtonController,
-        curve: new Interval(0.0, 0.250)
+        curve: new Interval(0.0, 0.187)
       )
     );
     buttonZoomout = new Tween(
@@ -47,10 +47,23 @@ class _HPS extends State<HP> with TickerProviderStateMixin {
       new CurvedAnimation(
         parent: _loginButtonController,
         curve: new Interval(
-          0.550, 0.900,
+          0.412, 0.749,
           curve: Curves.bounceOut,
         ),
       )
+    );
+
+    fadeScreenAnimation = new ColorTween(
+      begin: Color.fromRGBO(0, 0, 0, 1.0),
+      end: Color.fromRGBO(0, 0, 0, 0.0),
+    ).animate(
+      new CurvedAnimation(
+        parent: _loginButtonController,
+        curve: new Interval(
+          0.600, 1,
+          curve: Curves.ease
+        ),
+      ),
     );
   }
 
@@ -72,7 +85,7 @@ class _HPS extends State<HP> with TickerProviderStateMixin {
                           fit: BoxFit.contain, animation: "l"),
                     ),
                   )
-                : Stack(
+                :buttonZoomout.value < 1000 ?  Stack(
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -194,7 +207,14 @@ class _HPS extends State<HP> with TickerProviderStateMixin {
                         ),
                       ),
                     ],
-                  ),
+                  )
+
+                : Stack(
+                  children: [
+                    Center(child: Text('Welcome'),),
+                    C(color: fadeScreenAnimation.value)
+                  ],
+                )
           ))(
       PageController(
           initialPage: cp,
