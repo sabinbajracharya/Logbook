@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flare_flutter/flare_actor.dart';
+import 'package:video_player/video_player.dart';
 
 var WD = 233.0, AC = Alignment.center, SP = C(margin: EdgeInsets.all(16));
 lpd(t, [a = 140, b = 255]) => (a + (b - a) * t).toInt();
@@ -25,197 +26,229 @@ class _HPS extends State<HP> with TickerProviderStateMixin {
   var cp = 1, np = -1, fade = 1.0, _l = true, _d;
   AnimationController _loginButtonController;
   Animation buttonSqueezeAnimation, buttonZoomout, fadeScreenAnimation;
+  VideoPlayerController _controller;
+
   void initState() {
     super.initState();
     _loginButtonController = new AnimationController(
-      duration: new Duration(seconds: 4),
-      vsync: this
-    );
+        duration: new Duration(seconds: 4), vsync: this);
     buttonSqueezeAnimation = Tween(
       begin: 200.0,
       end: 70.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _loginButtonController,
-        curve: new Interval(0.0, 0.187)
-      )
-    );
+    ).animate(CurvedAnimation(
+        parent: _loginButtonController, curve: new Interval(0.0, 0.187)));
     buttonZoomout = new Tween(
       begin: 70.0,
       end: 1000.0,
-    ).animate(
-      new CurvedAnimation(
-        parent: _loginButtonController,
-        curve: new Interval(
-          0.412, 0.749,
-          curve: Curves.bounceOut,
-        ),
-      )
-    );
-
+    ).animate(new CurvedAnimation(
+      parent: _loginButtonController,
+      curve: new Interval(
+        0.412,
+        0.749,
+        curve: Curves.bounceOut,
+      ),
+    ));
     fadeScreenAnimation = new ColorTween(
       begin: Color.fromRGBO(0, 0, 0, 1.0),
       end: Color.fromRGBO(0, 0, 0, 0.0),
     ).animate(
       new CurvedAnimation(
         parent: _loginButtonController,
-        curve: new Interval(
-          0.600, 1,
-          curve: Curves.ease
-        ),
+        curve: new Interval(0.600, 1, curve: Curves.ease),
       ),
     );
+
   }
 
-  Future<Null> _playAnimation() async {
-  try {
-    _loginButtonController.forward();
-    // _loginButtonController.reverse();
+  loadVideo(url) {
+    if (_controller!=null)_controller.dispose();
+    _controller = VideoPlayerController.asset(url)
+      ..initialize().then((_) {
+        setState(() {
+          _controller
+          ..setLooping(true)
+          ..play();
+        });
+      });
   }
-  on TickerCanceled{}
-}
 
   build(ctx) => ((_pCtrl, _) => Scaffold(
-            body: _l
-                ? Center(
-                    child: C(
-                      height: 25,
-                      width: 50,
-                      child: FlareActor("assets/l",
-                          fit: BoxFit.contain, animation: "l"),
-                    ),
-                  )
-                :buttonZoomout.value < 1000 ?  Stack(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            _d["t"],
-                            style: Theme.of(context).textTheme.headline,
-                          ),
-                          Text(_d["s"],
-                              style: Theme.of(context).textTheme.subhead),
-                          SP,
-                          Stack(alignment: Alignment.center, children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(36),
-                              child: C(
-                                width: WD,
-                                height: 480,
-                                color: Colors.black87,
-                              ),
+          body: _l
+              ? Center(
+                  child: C(
+                    height: 25,
+                    width: 50,
+                    child: FlareActor("assets/l",
+                        fit: BoxFit.contain, animation: "l"),
+                  ),
+                )
+              : buttonZoomout.value < 1000
+                  ? Stack(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              _d["t"],
+                              style: Theme.of(context).textTheme.headline,
                             ),
-                            C(
-                              height: 464,
-                              child: NotificationListener(
-                                onNotification: (n) {
-                                  var pcp = _pCtrl.page;
-                                  if (n is ScrollEndNotification) {
-                                    setState(() => cp = pcp.floor());
-                                  } else {
-                                    setState(() {
-                                      if (pcp - cp > 0) {
-                                        /*forwardPage*/
-                                        np = pcp.ceil();
-                                        fade = np - pcp;
-                                      } else {
-                                        /*backwardPage*/
-                                        np = pcp.floor();
-                                        fade = pcp - np;
-                                      }
-                                    });
-                                  }
-                                },
-                                child: PageView.builder(
-                                  itemCount: _d['d'].length,
-                                  controller: _pCtrl,
-                                  itemBuilder: (_, i) => C(
-                                        margin:
-                                            EdgeInsets.only(left: 8, right: 8),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(28),
-                                          child: InkWell(
-                                            onTap: () => _pCtrl.animateToPage(i,
-                                                duration: new Duration(
-                                                    milliseconds: 350),
-                                                curve: Curves.easeIn),
-                                            child: Image.asset(_d['d'][i]['i'],
-                                                color: i == np
-                                                    ? colr(lpd(1 - fade))
-                                                    : i == cp
-                                                        ? colr(lpd(fade))
-                                                        : colr(140),
-                                                colorBlendMode:
-                                                    BlendMode.modulate,
-                                                fit: BoxFit.cover),
+                            Text(_d["s"],
+                                style: Theme.of(context).textTheme.subhead),
+                            SP,
+                            Stack(alignment: Alignment.center, children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(36),
+                                child: C(
+                                  width: WD,
+                                  height: 480,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              C(
+                                height: 464,
+                                child: NotificationListener(
+                                  onNotification: (n) {
+                                    var pcp = _pCtrl.page;
+                                    if (cp == pcp) return;
+                                    if (n is ScrollEndNotification) {
+                                      setState((){
+                                        cp = pcp.floor();
+                                        loadVideo(_d['d'][cp]['v']);
+                                      });
+                                    } else {
+                                      setState(() {
+                                        if (pcp - cp > 0) {
+                                          /*forwardPage*/
+                                          np = pcp.ceil();
+                                          fade = np - pcp;
+                                        } else {
+                                          /*backwardPage*/
+                                          np = pcp.floor();
+                                          fade = pcp - np;
+                                        }
+                                      });
+                                    }
+                                  },
+                                  child: PageView.builder(
+                                    itemCount: _d['d'].length,
+                                    controller: _pCtrl,
+                                    itemBuilder: (_, i) => C(
+                                          margin: EdgeInsets.only(
+                                              left: 8, right: 8),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(28),
+                                            child: InkWell(
+                                              onTap: () {
+                                                if(_controller!=null && i!=cp)_controller.pause();
+                                                _pCtrl.animateToPage(i,duration: new Duration(milliseconds: 350),curve: Curves.easeIn);
+                                              },
+                                              child: i == cp && _controller != null && _controller.value.initialized
+                                                  ? AspectRatio(
+                                                      aspectRatio: _controller.value.aspectRatio,
+                                                      child: VideoPlayer(
+                                                          _controller),
+                                                    )
+                                                  : Image.asset(_d['d'][i]['i'],
+                                                      color: i == np
+                                                          ? colr(lpd(1 - fade))
+                                                          : i == cp
+                                                              ? colr(lpd(fade))
+                                                              : colr(140),
+                                                      colorBlendMode:
+                                                          BlendMode.modulate,
+                                                      fit: BoxFit.cover),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            IgnorePointer(
-                              child: C(
-                                alignment: AlignmentDirectional.topCenter,
-                                width: WD,
-                                height: 480,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(36.0),
-                                    border:
-                                        Border.all(color: colr(52), width: 8)),
+                              IgnorePointer(
                                 child: C(
-                                  height: 20,
-                                  width: 120,
+                                  alignment: AlignmentDirectional.topCenter,
+                                  width: WD,
+                                  height: 480,
                                   decoration: BoxDecoration(
-                                      color: colr(52),
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(36),
-                                          bottomRight: Radius.circular(36))),
+                                      borderRadius: BorderRadius.circular(36.0),
+                                      border: Border.all(
+                                          color: colr(52), width: 8)),
+                                  child: C(
+                                    height: 20,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                        color: colr(52),
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(36),
+                                            bottomRight: Radius.circular(36))),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ]),
-                          SP,
-                        ],
-                      ),
-                      C(
-                        alignment: Alignment.bottomCenter,
-                        padding: buttonZoomout.value == 70 ? EdgeInsets.all(26) : EdgeInsets.all(0),
-                        child: Material(
-                          elevation: 5,
+                            ]),
+                            SP,
+                          ],
+                        ),
+                        C(
+                          alignment: Alignment.bottomCenter,
+                          padding: buttonZoomout.value == 70
+                              ? EdgeInsets.all(26)
+                              : EdgeInsets.all(0),
+                          child: Material(
+                            elevation: 5,
                             color: Colors.black,
-                            borderRadius: buttonZoomout.value < 300 ? BorderRadius.all(Radius.circular(52)) : BorderRadius.all(Radius.circular(0)),
-                          child: InkWell(
-                            borderRadius: BorderRadius.all(Radius.circular(52)),
-                            onTap: ()=>_playAnimation(),
-                            child: C(
-                              width: buttonZoomout.value == 70 ? buttonSqueezeAnimation.value: buttonZoomout.value,
-                              height: buttonZoomout.value == 70 ? 60.0 : buttonZoomout.value,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children:
-                                  buttonSqueezeAnimation.value < 75.0
-                                  ? buttonZoomout.value < 300 ? [CircularProgressIndicator(strokeWidth: 1.0, valueColor: new AlwaysStoppedAnimation(Colors.white))] : []
-                                  : buttonSqueezeAnimation.value < 200.0
-                                  ? [Icon(Icons.chevron_right,color: Colors.white)]
-                                  : [Icon(Icons.chevron_right,color: Colors.white),Text(_d['a'],style: TextStyle(color: Colors.white))]
+                            borderRadius: buttonZoomout.value < 300
+                                ? BorderRadius.all(Radius.circular(52))
+                                : BorderRadius.all(Radius.circular(0)),
+                            child: InkWell(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(52)),
+                              onTap: () => _loginButtonController.forward(),
+                              child: C(
+                                width: buttonZoomout.value == 70
+                                    ? buttonSqueezeAnimation.value
+                                    : buttonZoomout.value,
+                                height: buttonZoomout.value == 70
+                                    ? 60.0
+                                    : buttonZoomout.value,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: buttonSqueezeAnimation.value <
+                                            75.0
+                                        ? buttonZoomout.value < 300
+                                            ? [
+                                                CircularProgressIndicator(
+                                                    strokeWidth: 1.0,
+                                                    valueColor:
+                                                        new AlwaysStoppedAnimation(
+                                                            Colors.white))
+                                              ]
+                                            : []
+                                        : buttonSqueezeAnimation.value < 200.0
+                                            ? [
+                                                Icon(Icons.chevron_right,
+                                                    color: Colors.white)
+                                              ]
+                                            : [
+                                                Icon(Icons.chevron_right,
+                                                    color: Colors.white),
+                                                Text(_d['a'],
+                                                    style: TextStyle(
+                                                        color: Colors.white))
+                                              ]),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  )
-
-                : Stack(
-                  children: [
-                    Center(child: Text('Welcome'),),
-                    C(color: fadeScreenAnimation.value)
-                  ],
-                )
-          ))(
+                      ],
+                    )
+                  : Stack(
+                      children: [
+                        Center(
+                          child: Text('Welcome'),
+                        ),
+                        C(color: fadeScreenAnimation.value)
+                      ],
+                    )))(
       PageController(
           initialPage: cp,
           viewportFraction: WD / MediaQuery.of(ctx).size.width),

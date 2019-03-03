@@ -3,10 +3,13 @@
     "s": "Discover & share amazing vlogs...",
     "a": "Start the journey",
     "d": [{
-        "i": "assets/images/bg.jpg"
+        "i": "assets/images/bg.jpg",
+        "v": "assets/videos/1.mp4"
     },{
-        "i": "assets/images/bg2.jpg"
+        "i": "assets/images/bg2.jpg",
+        "v": "assets/videos/2.mp4"
     },{
-        "i": "assets/images/bg1.jpg"
+        "i": "assets/images/bg1.jpg",
+        "v": "assets/videos/3.mp4"
     }]
 }
