@@ -56,12 +56,28 @@ class VP extends S{
   createState()=>_VS();
 }
 class _VS extends State<VP>{
+  var _vc,_vr=false;
+  lv(u)async{if(_vc!=null)await _vc.dispose();_vc=VideoPlayerController.asset(u)..initialize().then((_){_vc..setLooping(true)..play();setState(()=>_vr=true);});}
+  @override
+  void initState() {
+    lv(widget.o['v']);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var p = widget.o;
     return Scaffold(
-      body: Hero(tag:p['u'], child:Image.asset(p['i'],fit: BoxFit.cover,height: 1/0,
+      body: _vr
+      ?VideoPlayer(_vc)
+
+      :Hero(tag:p['u'], child:Image.asset(p['i'],fit: BoxFit.cover,height: 1/0,
     width: 1/0)),
     );
+  }
+  @override
+  void dispose() {
+    _vc.dispose();
+    super.dispose();
   }
 }
