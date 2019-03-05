@@ -80,9 +80,7 @@ child:!_n?ICN:_za.value<300?CircularProgressIndicator(strokeWidth:1.0,valueColor
 appBar:AppBar(elevation:0,title:Text(_d['e'],style:TextStyle(color:CB)),backgroundColor:CW),
 body:C(margin:EdgeInsets.only(left:8,right:8),
 child:StaggeredGridView.countBuilder(crossAxisCount:4,itemCount:_d['f'].length,
-itemBuilder:(_,i)=>C(child:InkWell(onTap:()=>Navigator.push(cx,
-MaterialPageRoute(builder:(c)=>VP(_d['f'][i]))),
-child:Hero(tag:_d['f'][i]['u'],child:Image.asset(_d['f'][i]['i'],fit:BoxFit.cover)))),
+itemBuilder:(_,i)=>Hero(tag:_d['f'][i]['u'],child:Material(child:Ink.image(image:AssetImage(_d['f'][i]['i']),fit:BoxFit.cover,child:InkWell(onTap:()=>Navigator.push(cx,MaterialPageRoute(builder:(c)=>VP(_d['f'][i]))))))),
 staggeredTileBuilder:(i)=>StaggeredTile.count(2,i.isEven?3:2),mainAxisSpacing:8,crossAxisSpacing:8))),
 IgnorePointer(child:C(color:_fa.value))])))(PageController(initialPage:cp,viewportFraction:WD/MediaQuery.of(cx).size.width));
 dispose(){_vc.dispose();_bc.dispose();super.dispose();}
