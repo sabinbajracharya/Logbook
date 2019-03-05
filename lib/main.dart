@@ -1,5 +1,5 @@
 import 'dart:ui';import 'package:flutter/material.dart';import 'dart:convert';import 'package:flare_flutter/flare_actor.dart';import 'package:video_player/video_player.dart';import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-var WD=233.0,MAC=Alignment.center,=MainAxisAlignment.center,SP=C(margin:ei(16.0)),CB=Colors.black,CW=Colors.white;
+var WD=233.0,MAC=Alignment.center,AC=MainAxisAlignment.center,SP=C(margin:ei(16.0)),CB=Colors.black,CW=Colors.white;
 lpd(t,[a=140,b=255])=>(a+(b-a)*t).toInt();
 colr(l,[a=1.0])=>Color.fromRGBO(l,l,l,a);
 vpc(u)async{var v=VideoPlayerController.asset(u);await v.initialize();v..setLooping(true)..play();return v;}
@@ -55,10 +55,7 @@ curve:Curves.easeIn);
 },
 child:_vr &&
 i==cp&&_vc.value.initialized
-?AspectRatio(
-aspectRatio:
-_vc.value.aspectRatio,
-child:VideoPlayer(_vc))
+?VideoPlayer(_vc)
 :Image.asset(_d['d'][i]['i'],
 color:i==np
 ?colr(lpd(1-fade))
