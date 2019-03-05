@@ -65,14 +65,13 @@ color:i==np
 colorBlendMode:
 BlendMode.modulate,
 fit:BoxFit.cover))))))),
-IgnorePointer(child:C(alignment:AlignmentDirectional.topCenter,width:WD,decoration:BoxDecoration(borderRadius:br(36.0),border:Border.all(color:colr(52),width:8)),
-child:C(height:20,width:120,decoration:BoxDecoration(color:colr(52),borderRadius:BorderRadius.only(bottomLeft:rc(36.0),bottomRight:rc(36.0))))))
+IgnorePointer(child:C(width:WD,decoration:BoxDecoration(borderRadius:br(36.0),border:Border.all(color:colr(52),width:8))))
 ])),
 C(height:82)
 ]),
 C(alignment:Alignment.bottomCenter,padding:_za.value==50?ei(16.0):ei(0.0),
 child:Material(elevation:5,color:CB,borderRadius:_za.value<300?br(52.0):br(0.0),
-child:InkWell(borderRadius:br(52.0),onTap:(){ss((){_vr=false;_n=true;});_vc..pause()..dispose();_bc.forward();},
+child:InkWell(borderRadius:br(52.0),onTap:(){ss((){_vr=false;_n=true;});Future.delayed(Duration(milliseconds:400)).then((a){_vc..pause()..dispose();_bc.forward();});},
 child:C(width:_za.value,height:_za.value,alignment:MAC,
 child:!_n?ICN:_za.value<300?CircularProgressIndicator(strokeWidth:1.0,valueColor:AlwaysStoppedAnimation(CW)):C()
 ))))
