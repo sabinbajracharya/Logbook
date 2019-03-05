@@ -2,6 +2,7 @@
     "t": "Logbook",
     "s": "Discover & share amazing vlogs...",
     "a": "Start the journey",
+    "e": "Explore",
     "d": [{
         "i": "assets/images/bg.jpg",
         "v": "assets/videos/1.mp4"
