@@ -17,8 +17,9 @@ body:_l
 :_za.value<1000
 ? Stack(children:[
 Column(mainAxisAlignment:AC,children:[
-C(height:52),
-Text(_d["t"],style:ts(cx).headline),
+C(height:72),
+Text(_d["t"],style:ts(cx).headline.copyWith(fontWeight: FontWeight.w700)),
+C(height:8),
 Text(_d["s"],style:ts(cx).subhead),
 SP,
 Expanded(
