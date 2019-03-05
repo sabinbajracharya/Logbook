@@ -1,5 +1,5 @@
 import 'dart:ui';import 'package:flutter/material.dart';import 'dart:convert';import 'package:flare_flutter/flare_actor.dart';import 'package:video_player/video_player.dart';import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-var WD=233.0,AC=MainAxisAlignment.center,SP=C(margin:ei(16.0)),CB=Colors.black,CW=Colors.white;
+var WD=233.0,MAC=Alignment.center,=MainAxisAlignment.center,SP=C(margin:ei(16.0)),CB=Colors.black,CW=Colors.white;
 lpd(t,[a=140,b=255])=>(a+(b-a)*t).toInt();
 colr(l,[a=1.0])=>Color.fromRGBO(l,l,l,a);
 vpc(u)async{var v=VideoPlayerController.asset(u);await v.initialize();v..setLooping(true)..play();return v;}
@@ -27,7 +27,7 @@ Text(_d["t"],style:ts(cx).headline),
 Text(_d["s"],style:ts(cx).subhead),
 SP,
 Expanded(
-child:Stack(alignment:Alignment.center,children:[
+child:Stack(alignment:MAC,children:[
 ClipRRect(
 borderRadius:br(36.0),
 child:C(width:WD,color:Colors.black87)),
@@ -76,11 +76,9 @@ C(height:82)
 C(alignment:Alignment.bottomCenter,padding:_za.value==50?ei(16.0):ei(0.0),
 child:Material(elevation:5,color:CB,borderRadius:_za.value<300?br(52.0):br(0.0),
 child:InkWell(borderRadius:br(52.0),onTap:(){ss((){_vr=false;_n=true;});_vc..pause()..dispose();_bc.forward();},
-child:C(width:_za.value,height:_za.value,
-child:Row(mainAxisAlignment:AC,
-children:
-!_n?[ICN]:_za.value<300?[CircularProgressIndicator(strokeWidth:1.0,valueColor:AlwaysStoppedAnimation(CW))]:[]
-)))))
+child:C(width:_za.value,height:_za.value,alignment:MAC,
+child:!_n?ICN:_za.value<300?CircularProgressIndicator(strokeWidth:1.0,valueColor:AlwaysStoppedAnimation(CW)):C()
+))))
 ])
 :Stack(children:[Scaffold(backgroundColor:CW,
 appBar:AppBar(elevation:0,title:Text(_d['e'],style:TextStyle(color:CB)),backgroundColor:CW),
