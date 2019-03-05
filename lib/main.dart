@@ -48,7 +48,7 @@ duration:Duration(
 milliseconds:350),
 curve:Curves.easeIn);
 },
-child:L(_d['d'][i],cp==i,o:i==np?max(0.7,1-fade):i==cp?max(0.7,fade):0.7))))))),
+child:L(_d['d'][i],!_n&&cp==i,o:i==np?max(0.7,1-fade):i==cp?max(0.7,fade):0.7))))))),
 IgnorePointer(child:C(alignment:Alignment.topCenter,width:WD,decoration:BoxDecoration(borderRadius:br(36.0),border:Border.all(color:colr(52),width:8)),child:C(height:20,width:120,decoration:BoxDecoration(color:colr(52),borderRadius:BorderRadius.only(bottomLeft:rc(36.0),bottomRight:rc(36.0))))))
 ])),
 C(height:82)
@@ -71,6 +71,6 @@ dispose(){_bc.dispose();super.dispose();}
 }
 class VP extends S{final o;VP(this.o);createState()=>_VS();}
 class _VS extends State<VP>{z(i,[y=0])=>IconButton(icon:Icon(i),color:Colors.white,onPressed:()=>y==1?Navigator.pop(context):null);
-build(cx)=>((p)=>Hero(tag:p['u'],child:Scaffold(body:Stack(alignment:Alignment.bottomLeft,children:[L(p,true),BackdropFilter(child:C(height:52,width:1/0,color:Colors.white.withOpacity(0.1),child:Align(alignment:Alignment.bottomRight,child:z(Icons.favorite_border))),filter:ImageFilter.blur(sigmaX:10,sigmaY:10)),z(Icons.close,1),]))))(widget.o);
+build(cx)=>((p)=>Hero(tag:p['u'],child:Scaffold(body:Stack(alignment:Alignment.bottomLeft,children:[L(p,true),C(height:52,width:1/0,color:Colors.black.withOpacity(0.5),child:Align(alignment:Alignment.bottomRight,child:z(Icons.favorite_border))),z(Icons.close,1),]))))(widget.o);
 }
 class L extends S{final u,k,o;L(this.u,this.k,{this.o=1.0});createState()=>_L();}class _L extends State<L> {var v;initState(){v=VideoPlayerController.asset(widget.u['v']);v..setLooping(true)..initialize().then((_)=>setState((){}));super.initState();}build(_){var w;if(v.value.initialized){widget.k?v.play():v.pause();w=VideoPlayer(v);}else w=Image.asset(widget.u['i'],fit:BoxFit.cover,height:1/0,width:1/0);return Opacity(child:w,opacity:widget.o);}dispose(){v.dispose();super.dispose();}}
